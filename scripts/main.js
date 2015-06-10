@@ -1,4 +1,6 @@
-import likeView from '../views/likes';
+import LikeView from '../views/likes';
+import LoadingView from '../views/loading';
+import Like from './models/likes';
 
 (function(){
   'use strict';
@@ -6,12 +8,20 @@ import likeView from '../views/likes';
   
 
   $(document).ready(function(){
-    $('body').prepend(JST.likes());
-    $('body').append(JST.loading());
+    $('#content').html(JST.likes());
+    renderLike();
+    renderLoading();
     
+  function renderLike(){
+    var like = new Like();
+    var likeView = new LikeView({model: like})
+    $('.likes').html(likeView.el);
+  }
+  
+  function renderLoading() {
+    var loadingButton = new LoadingView();
+    $('.loading').html(loadingButton.el)
+  }
     
   });
-  
-
-  
 })();

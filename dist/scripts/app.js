@@ -7,12 +7,32 @@ var _viewsLikes = require('../views/likes');
 
 var _viewsLikes2 = _interopRequireDefault(_viewsLikes);
 
+var _viewsLoading = require('../views/loading');
+
+var _viewsLoading2 = _interopRequireDefault(_viewsLoading);
+
+var _modelsLikes = require('./models/likes');
+
+var _modelsLikes2 = _interopRequireDefault(_modelsLikes);
+
 (function () {
   'use strict';
 
   $(document).ready(function () {
-    $('body').prepend(JST.likes());
-    $('body').append(JST.loading());
+    $('#content').html(JST.likes());
+    renderLike();
+    renderLoading();
+
+    function renderLike() {
+      var like = new _modelsLikes2['default']();
+      var likeView = new _viewsLikes2['default']({ model: like });
+      $('.likes').html(likeView.el);
+    }
+
+    function renderLoading() {
+      var loadingButton = new _viewsLoading2['default']();
+      $('.loading').html(loadingButton.el);
+    }
   });
 })();
   
@@ -39,7 +59,18 @@ module.exports = exports["default"];
 });
 
 require.register("models/loading", function(exports, require, module){
-  "use strict";
+  'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+var Loading = Backbone.Model.extend({
+	test: '',
+	isLoading: false
+});
+
+exports['default'] = Loading;
+module.exports = exports['default'];
   
 });
 
@@ -74,8 +105,9 @@ exports['default'] = Backbone.View.extend({
   },
 
   render: function render() {
-    this.$el.html(this.template(this.model.toJASON()));
+    this.$el.html(this.template(this.model.toJSON()));
   }
+
 });
 module.exports = exports['default'];
   
@@ -83,6 +115,24 @@ module.exports = exports['default'];
 
 require.register("views/loading", function(exports, require, module){
   "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports["default"] = Backbone.View.extend({
+
+	template: JST.loading,
+
+	initialize: function initialize() {
+		this.render();
+	},
+
+	render: function render() {
+		this.$el.html(this.template());
+	}
+
+});
+module.exports = exports["default"];
   
 });
 

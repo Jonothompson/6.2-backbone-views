@@ -17,6 +17,7 @@ export default Backbone.View.extend ({
   },
   
   render: function() {
-    this.$el.html(this.template(this.model.toJASON()));
+    this.$el.html(this.template(this.model.toJSON()));
   }
+  
 });

@@ -26,12 +26,12 @@ var _modelsLikes2 = _interopRequireDefault(_modelsLikes);
     function renderLike() {
       var like = new _modelsLikes2['default']();
       var likeView = new _viewsLikes2['default']({ model: like });
-      $('.likes').html(likeView.el);
+      $('.likeButton').html(likeView.el);
     }
 
     function renderLoading() {
       var loadingButton = new _viewsLoading2['default']();
-      $('.loading').html(loadingButton.el);
+      $('.loadingButton').html(loadingButton.el);
     }
   });
 })();
@@ -39,9 +39,9 @@ var _modelsLikes2 = _interopRequireDefault(_modelsLikes);
 });
 
 require.register("models/likes", function(exports, require, module){
-  "use strict";
+  'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 var Like = Backbone.Model.extend({
@@ -49,12 +49,20 @@ var Like = Backbone.Model.extend({
 		count: 0
 	},
 	like: function like() {
-		var count = this.attributes.count;
+		if (this.get('count') == 0) {
+			this.set('like', 'Like');
+		} else {
+			this.set('like', 'Likes');
+		}
+
+		var count = this.get('count') + 1;
+		this.set('count', count);
+		console.log(this.get('count'));
 	}
 });
 
-exports["default"] = Like;
-module.exports = exports["default"];
+exports['default'] = Like;
+module.exports = exports['default'];
   
 });
 
@@ -89,19 +97,20 @@ var _modelsLikes2 = _interopRequireDefault(_modelsLikes);
 
 exports['default'] = Backbone.View.extend({
 
-  template: JST.like,
+  template: JST.likes,
 
   events: {
-    'click .like': 'addCount'
+    'click .likeButton': 'like'
   },
 
-  addCount: function addCount(e) {
+  like: function like(e) {
     e.preventDefault();
     this.model.like();
   },
 
   initialize: function initialize(e) {
     this.render();
+    this.model.on('change:count', this.render, this);
   },
 
   render: function render() {

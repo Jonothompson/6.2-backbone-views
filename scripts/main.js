@@ -15,12 +15,12 @@ import Like from './models/likes';
   function renderLike(){
     var like = new Like();
     var likeView = new LikeView({model: like})
-    $('.likes').html(likeView.el);
+    $('.likeButton').html(likeView.el);
   }
   
   function renderLoading() {
     var loadingButton = new LoadingView();
-    $('.loading').html(loadingButton.el)
+    $('.loadingButton').html(loadingButton.el)
   }
     
   });
